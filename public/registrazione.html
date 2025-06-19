@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrazione Cliente</title>
+  </head>
+  <body>
+    <h1>Registrazione Cliente</h1>
+
+    <form id="formRegistrazione">
+      <label for="nome">Nome:</label><br />
+      <input type="text" id="nome" name="nome" required /><br />
+
+      <label for="cognome">Cognome:</label><br />
+      <input type="text" id="cognome" name="cognome" required /><br />
+
+      <label for="email">Email:</label><br />
+      <input type="email" id="email" name="email" required /><br />
+
+      <label for="cellulare">Cellulare:</label><br />
+      <input type="tel" id="cellulare" name="cellulare" required /><br />
+
+      <label for="dataNascita">Data di nascita:</label><br />
+      <input type="date" id="dataNascita" name="dataNascita" required /><br /><br />
+
+      <button type="submit">Registra</button>
+    </form>
+
+    <p id="messaggio"></p>
+
+    <script>
+      const form = document.getElementById("formRegistrazione");
+      const messaggio = document.getElementById("messaggio");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const datiCliente = {
+          nome: form.nome.value,
+          cognome: form.cognome.value,
+          email: form.email.value,
+          cellulare: form.cellulare.value,
+          dataNascita: form.dataNascita.value,
+        };
+
+        try {
+          const res = await fetch("https://fidelity-backend-6egj.onrender.com/api/clienti", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(datiCliente),
+          });
+
+          if (res.ok) {
+            messaggio.textContent = "Cliente registrato con successo!";
+            form.reset();
+          } else {
+            const errore = await res.json();
+            messaggio.textContent = "Errore: " + errore.message;
+          }
+        } catch (err) {
+          messaggio.textContent = "Errore nella connessione al server.";
+        }
+      });
+    </script>
+  </body>
+</html>
