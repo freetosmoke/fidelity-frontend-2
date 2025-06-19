@@ -1,6 +1,6 @@
 
 {
-  "name": "frontend-fidelity",
+  "name": "frontend-fidelity-visible",
   "version": "1.0.0",
   "scripts": {
     "dev": "vite",
